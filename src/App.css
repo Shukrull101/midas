@@ -182,3 +182,160 @@
     border-right-color: var(--border);
   }
 }
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #050b1f; /* Фирменный глубокий темно-синий цвет */
+  padding: 18px 40px;
+  width: 100%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Логотип */
+.logoLink {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.logoText {
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: #ffffff;
+  font-family: sans-serif;
+}
+
+/* Навигация (пункты меню) */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.navLink {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: opacity 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.75;
+}
+
+.navLink:hover,
+.navLink.active {
+  opacity: 1;
+}
+
+.saleBadge {
+  color: #ff4757;
+}
+
+/* Правые иконки */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.iconBtn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: opacity 0.2s;
+  opacity: 0.9;
+}
+
+.iconBtn:hover {
+  opacity: 1;
+}
+
+.cartWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cartBadge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background-color: #ff4757;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Мобильный бургер */
+.burger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.burger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: #ffffff;
+  transition: 0.3s;
+}
+
+/* Адаптивность для телефонов и планшетов */
+@media (max-width: 1024px) {
+  .header {
+    padding: 16px 20px;
+  }
+
+  .nav {
+    position: fixed;
+    top: 65px;
+    left: -100%;
+    width: 100%;
+    height: calc(100vh - 65px);
+    background-color: #050b1f;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 30px;
+    gap: 20px;
+    transition: left 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  }
+
+  .nav.open {
+    left: 0;
+  }
+
+  .burger {
+    display: flex;
+  }
+}
