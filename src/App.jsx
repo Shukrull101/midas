@@ -1,11 +1,11 @@
 import React from 'react';
-import Header from './layout/header/Header';
+import Header from './src/layout/header/Header';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={{ backgroundColor: '#050b1f', minHeight: '100vh', color: '#fff' }}>
       <Header />
-      {/* Здесь позже появятся HeroSection, карточки и другие блоки */}
+      {/* Здесь в будущем добавим HeroSection и другие блоки */}
     </div>
   );
 }
