@@ -1,18 +1,8 @@
 import React from 'react';
-import Header from './layout/header/header';
+import FreshBakery from './FreshBakery';
 
 function App() {
-  return (
-    <div
-      style={{
-        backgroundColor: '#050b1f',
-        minHeight: '100vh',
-        color: '#fff'
-      }}
-    >
-      <Header />
-    </div>
-  );
+  return <FreshBakery />;
 }
 
 export default App;
