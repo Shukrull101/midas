@@ -28,7 +28,7 @@ const Header = () => {
           </NavLink>
           
           <NavLink 
-            to="/catalog?category=hot" 
+            to="/catalog?category=hotmeals" 
             className={({isActive}) => `${styles.navLink} ${isActive ? styles.active : ''}`}
             onClick={closeMenu}
           >
@@ -36,7 +36,7 @@ const Header = () => {
           </NavLink>
 
           <NavLink 
-            to="/catalog?category=cold" 
+            to="/catalog?category=coldmeals" 
             className={({isActive}) => `${styles.navLink} ${isActive ? styles.active : ''}`}
             onClick={closeMenu}
           >
@@ -44,7 +44,7 @@ const Header = () => {
           </NavLink>
 
           <NavLink 
-            to="/catalog?category=bakery" 
+            to="/catalog?category=freshbakery" 
             className={({isActive}) => `${styles.navLink} ${isActive ? styles.active : ''}`}
             onClick={closeMenu}
           >
@@ -68,7 +68,7 @@ const Header = () => {
           </NavLink>
         </nav>
 
-        {/* Правые иконки (Поиск, Профиль, Корзина) */}
+        {/* Правые иконки (Поиск, Профиль/Контакты, Корзина) */}
         <div className={styles.actions}>
           <button className={styles.iconBtn} aria-label="Search">
             <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
