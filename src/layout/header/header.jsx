@@ -29,18 +29,10 @@ const Header = () => {
 
         {/* Навигация */}
         <nav className={`${styles.nav} ${isMenuOpen ? styles.open : ""}`}>
-          <NavLink
-            to="/catalog?category=sales"
-            className={({ isActive }) =>
-              `${styles.navLink} ${isActive ? styles.active : ""}`
-            }
-            onClick={closeMenu}
-          >
-            <span className={styles.saleBadge}>АКЦИИ 🔥</span>
-          </NavLink>
+    
 
           <NavLink
-            to="/catalog?category=hotmeals"
+            to="/fresh-bakery"
             className={({ isActive }) =>
               `${styles.navLink} ${isActive ? styles.active : ""}`
             }
