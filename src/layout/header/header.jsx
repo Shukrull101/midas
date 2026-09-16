@@ -1,14 +1,23 @@
+
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+
 import styles from "./header.module.css";
-import { useCart } from '../../context';
+import { useCart } from "../../context";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const cartItemCount = 2; // Пример количества товаров в корзине
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const closeMenu = () => setIsMenuOpen(false);
+  // Получаем количество товаров из корзины
+  const { cartCount } = useCart();
+
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
 
   return (
     <header className={styles.header}>
@@ -59,6 +68,7 @@ const Header = () => {
           >
             СВЕЖАЯ ВЫПЕЧКА
           </NavLink>
+
           <NavLink
             to="/catalog?category=deserts"
             className={({ isActive }) =>
@@ -80,8 +90,9 @@ const Header = () => {
           </NavLink>
         </nav>
 
-        {/* Правые иконки (Поиск, Профиль/Контакты, Корзина) */}
+        {/* Правые иконки */}
         <div className={styles.actions}>
+          {/* Поиск */}
           <button className={styles.iconBtn} aria-label="Search">
             <svg
               width="20"
@@ -91,12 +102,17 @@ const Header = () => {
               strokeWidth="2"
               viewBox="0 0 24 24"
             >
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
           </button>
 
-          <Link to="/contacts" className={styles.iconBtn} aria-label="Profile">
+          {/* Профиль / Контакты */}
+          <Link
+            to="/contacts"
+            className={styles.iconBtn}
+            aria-label="Profile"
+          >
             <svg
               width="20"
               height="20"
@@ -105,11 +121,12 @@ const Header = () => {
               strokeWidth="2"
               viewBox="0 0 24 24"
             >
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
             </svg>
           </Link>
 
+          {/* Корзина */}
           <Link
             to="/cart"
             className={`${styles.iconBtn} ${styles.cartWrapper}`}
@@ -123,17 +140,15 @@ const Header = () => {
               strokeWidth="2"
               viewBox="0 0 24 24"
             >
-              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <path d="M16 10a4 4 0 0 1-8 0"></path>
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <path d="M16 10a4 4 0 0 1-8 0" />
             </svg>
-<<<<<<< HEAD
-            {cartCount > 0 && <span className={styles.cartBadge}>{cartCount}</span>}
-=======
-            {cartItemCount > 0 && (
-              <span className={styles.cartBadge}>{cartItemCount}</span>
+
+            {/* Количество товаров */}
+            {cartCount > 0 && (
+              <span className={styles.cartBadge}>{cartCount}</span>
             )}
->>>>>>> 9cb4a43 (update header)
           </Link>
 
           {/* Гамбургер для мобильных */}
@@ -148,15 +163,21 @@ const Header = () => {
                   ? "rotate(45deg) translate(5px, 5px)"
                   : "none",
               }}
-            ></span>
-            <span style={{ opacity: isMenuOpen ? "0" : "1" }}></span>
+            />
+
+            <span
+              style={{
+                opacity: isMenuOpen ? "0" : "1",
+              }}
+            />
+
             <span
               style={{
                 transform: isMenuOpen
                   ? "rotate(-45deg) translate(5px, -5px)"
                   : "none",
               }}
-            ></span>
+            />
           </button>
         </div>
       </div>
