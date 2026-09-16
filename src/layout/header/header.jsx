@@ -4,7 +4,7 @@ import styles from "./header.module.css";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const cartItemCount = 2; // Пример количества товаров в корзине
+  const cartItemCount = 0; // Пример количества товаров в корзине
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
