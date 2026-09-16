@@ -10,26 +10,28 @@ const OrderSummary = () => {
     <aside className="w-full bg-[#000000] border border-[#162035]/60 xl:border-none p-5 sm:p-6 xl:p-7 2xl:p-8 pb-7 sm:pb-9 xl:pb-10 font-['Montserrat',sans-serif] shadow-2xl">
       {cartItems.length === 0 ? (
         /* Состояние пустой корзины */
-        <div className="py-10 sm:py-14 text-center flex flex-col items-center justify-center">
-          <div className="w-16 h-16 rounded-full border border-dashed border-[#FBD13E]/40 flex items-center justify-center text-[#FBD13E] mb-5 bg-[#FBD13E]/5">
+        <div className="py-12 sm:py-16 text-center flex flex-col items-center justify-center">
+          <div className="w-16 h-16 rounded-full border border-dashed border-[#FBD13E]/40 flex items-center justify-center text-[#FBD13E] mb-6 bg-[#FBD13E]/5 shadow-[0_0_20px_rgba(251,209,62,0.1)]">
             <ShoppingBag size={28} />
           </div>
-          <h3 className="text-white text-base sm:text-lg lg:text-xl font-bold mb-3 tracking-tight">
+          <h3 className="text-white text-lg sm:text-xl font-bold mb-3 tracking-tight">
             В корзине пока ничего нет
           </h3>
-          <p className="text-[#9EA2AA] text-xs sm:text-sm max-w-[300px] mb-8 leading-relaxed">
+          <p className="text-[#9EA2AA] text-xs sm:text-sm max-w-[320px] leading-relaxed mb-8 sm:mb-10">
             Выберите любимые блюда из нашего меню или ароматную свежую выпечку
           </p>
-          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5 w-full justify-center max-w-[360px]">
+
+          {/* Кнопки перехода, расположенные аккуратно друг под другом без сжатия текста */}
+          <div className="flex flex-col gap-3.5 w-full max-w-[280px] sm:max-w-[300px] justify-center items-center">
             <Link
               to="/fresh-bakery"
-              className="w-full sm:w-auto px-6 py-3 bg-[#FBD13E] text-black font-extrabold text-xs uppercase tracking-wider text-center hover:bg-[#ebd532] active:scale-95 transition-all shadow-md"
+              className="w-full h-11 sm:h-12 bg-[#FBD13E] text-black font-extrabold text-xs uppercase tracking-[1.2px] flex items-center justify-center hover:bg-[#ebd532] active:scale-[0.99] transition-all shadow-md"
             >
               Свежая выпечка
             </Link>
             <Link
               to="/"
-              className="w-full sm:w-auto px-6 py-3 border border-white/20 text-white font-semibold text-xs uppercase tracking-wider text-center hover:border-white/50 hover:bg-white/5 active:scale-95 transition-all"
+              className="w-full h-11 sm:h-12 border border-white/20 text-white font-semibold text-xs uppercase tracking-[1.2px] flex items-center justify-center hover:border-white/50 hover:bg-white/5 active:scale-[0.99] transition-all"
             >
               В меню
             </Link>
