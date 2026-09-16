@@ -1,17 +1,19 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './layout/header/header';
-import Footer from './layout/footer/footer'; // Подключаем компонент футера из папки layout
+import Footer from './layout/footer/footer';
 import Catalog from './pages/Catalog';
 import FreshBakery from './pages/freshbakery/FreshBakery';
 import Checkout from './pages/checkout/Checkout';
 import Home from './pages/Home';
+import Desserts from './pages/desserts/Desserts';
 import { CartProvider } from './context';
+import Drinks from './pages/drinks/Drinks';
 
 function App() {
   return (
     <CartProvider>
-      {/* Обертка с flex-column и minHeight гарантирует, что футер всегда будет прижат к низу */}
+      {}
       <div style={{ backgroundColor: '#050b1f', minHeight: '100vh', color: '#fff', display: 'flex', flexDirection: 'column' }}>
         <Header />
 

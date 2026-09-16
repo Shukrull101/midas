@@ -2,73 +2,105 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useCart } from "../context";
 
-const products = [
-  {
-    id: 1,
-    name: "Лимонад Лимон-Мята",
-    price: 25,
-    image:
-      "https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=800&q=80",
-    description:
-      "Освежающий лимонад с натуральным лимоном, свежей мятой и льдом.",
-  },
-  {
-    id: 2,
-    name: "Мохито",
-    price: 30,
-    image:
-      "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80",
-    description:
-      "Безалкогольный мохито с лаймом, мятой и газированной водой.",
-  },
-  {
-    id: 3,
-    name: "Апельсиновый сок",
-    price: 20,
-    image:
-      "https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&w=800&q=80",
-    description:
-      "Свежий натуральный апельсиновый сок с насыщенным цитрусовым вкусом.",
-  },
-  {
-    id: 4,
-    name: "Холодный чай",
-    price: 18,
-    image:
-      "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=800&q=80",
-    description:
-      "Освежающий холодный чай с лимоном и льдом.",
-  },
-  {
-    id: 5,
-    name: "Салат Цезарь",
-    price: 40,
-    image:
-      "https://images.unsplash.com/photo-1546793665-c74683f339c1?auto=format&fit=crop&w=800&q=80",
-    description:
-      "Свежий салат с курицей, сыром, овощами и фирменным соусом.",
-  },
-];
+// База продуктов для разных категорий
+const allProducts = {
+  coldmeals: [
+    {
+      id: 1,
+      name: "Лимонад Лимон-Мята",
+      price: 25,
+      image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=800&q=80",
+      description: "Освежающий лимонад с натуральным лимоном, свежей мятой и льдом.",
+    },
+    {
+      id: 2,
+      name: "Мохито",
+      price: 30,
+      image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80",
+      description: "Безалкогольный мохито с лаймом, мятой и газированной водой.",
+    },
+    {
+      id: 3,
+      name: "Апельсиновый сок",
+      price: 20,
+      image: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&w=800&q=80",
+      description: "Свежий натуральный апельсиновый сок с насыщенным цитрусовым вкусом.",
+    },
+    {
+      id: 4,
+      name: "Холодный чай",
+      price: 18,
+      image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=800&q=80",
+      description: "Освежающий холодный чай с лимоном и льдом.",
+    },
+    {
+      id: 5,
+      name: "Салат Цезарь",
+      price: 40,
+      image: "https://images.unsplash.com/photo-1546793665-c74683f339c1?auto=format&fit=crop&w=800&q=80",
+      description: "Свежий салат с курицей, сыром, овощами и фирменным соусом.",
+    },
+  ],
+  deserts: [
+    {
+      id: 6,
+      name: "Шоколадный торт",
+      price: 45,
+      image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80",
+      description: "Нежный шоколадный бисквит с насыщенным крем-ганашем.",
+    },
+    {
+      id: 7,
+      name: "Чизкейк Нью-Йорк",
+      price: 50,
+      image: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=800&q=80",
+      description: "Классический сливочный чизкейк на песочной основе.",
+    },
+  ],
+  drinks: [
+    {
+      id: 8,
+      name: "Капучино",
+      price: 22,
+      image: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=800&q=80",
+      description: "Классический кофейный напиток с густой молочной пенкой.",
+    },
+    {
+      id: 9,
+      name: "Раф кофе",
+      price: 28,
+      image: "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=800&q=80",
+      description: "Эспрессо со сливками и ванильным сахаром.",
+    },
+  ],
+};
 
 function Catalog() {
   const [searchParams] = useSearchParams();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const { addToCart } = useCart();
 
-  const category = searchParams.get("category");
+  const category = searchParams.get("category") || "coldmeals";
+  
+  // Выбираем массив продуктов в зависимости от категории из URL
+  const products = allProducts[category] || [];
 
-  // Если открыли другую категорию
-  if (category !== "coldmeals") {
+  // Названия и заголовки для разных категорий
+  const categoryTitles = {
+    coldmeals: { subtitle: "Освежающие напитки и блюда", title: "ХОЛОДНЫЕ НАПИТКИ И БЛЮДА" },
+    deserts: { subtitle: "Сладкие искушения и выпечка", title: "НАШИ ДЕСЕРТЫ" },
+    drinks: { subtitle: "Горячие и прохладительные напитки", title: "НАПИТКИ" },
+  };
+
+  const currentMeta = categoryTitles[category] || { subtitle: "Ассортимент", title: "КАТАЛОГ ТОВАРОВ" };
+
+  // Если категории вообще нет в словаре
+  if (!allProducts[category]) {
     return (
       <section className="flex min-h-screen items-center justify-center bg-[#19242F] px-4">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-white">
-            Категория не найдена
-          </h1>
-
-          <p className="mt-3 text-gray-400">
-            Сейчас доступна только категория «Холодное».
-          </p>
+          <h1 className="text-3xl font-bold text-white">Категория не найдена</h1>
+          <p className="mt-3 text-gray-400">Такой категории пока не существует.</p>
         </div>
       </section>
     );
@@ -77,7 +109,6 @@ function Catalog() {
   return (
     <section className="min-h-screen bg-[#19242F] px-4 py-12">
       <div className="mx-auto max-w-7xl">
-
         {/* Заголовок */}
         <div className="mb-10 text-center">
           <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-orange-500">
@@ -85,11 +116,11 @@ function Catalog() {
           </p>
 
           <h1 className="text-3xl font-bold text-white md:text-4xl">
-            ХОЛОДНЫЕ НАПИТКИ И БЛЮДА
+            {currentMeta.title}
           </h1>
 
           <p className="mx-auto mt-3 max-w-xl text-gray-400">
-            Освежающие напитки и лёгкие блюда
+            {currentMeta.subtitle}
           </p>
         </div>
 
@@ -109,10 +140,9 @@ function Catalog() {
                 />
 
                 <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-gray-800">
-                  Холодное
+                  {category === "deserts" ? "Десерты" : category === "drinks" ? "Напитки" : "Холодное"}
                 </span>
 
-                {/* Кнопка появляется при наведении */}
                 <button
                   type="button"
                   onClick={() => setSelectedProduct(product)}
@@ -161,7 +191,6 @@ function Catalog() {
             className="w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl"
             onClick={(event) => event.stopPropagation()}
           >
-            {/* Фото */}
             <div className="relative h-64">
               <img
                 src={selectedProduct.image}
@@ -178,13 +207,8 @@ function Catalog() {
               </button>
             </div>
 
-            {/* Информация */}
             <div className="p-6">
-              <span className="text-sm font-semibold text-orange-500">
-                Холодное
-              </span>
-
-              <h2 className="mt-2 text-2xl font-bold text-gray-900">
+              <h2 className="text-2xl font-bold text-gray-900">
                 {selectedProduct.name}
               </h2>
 
@@ -194,7 +218,7 @@ function Catalog() {
 
               <div className="mt-6 flex items-center justify-between">
                 <span className="text-2xl font-bold text-orange-500">
-                  {selectedProduct.price} ₽
+                  {selectedProduct.price} сом
                 </span>
 
                 <button
@@ -205,7 +229,7 @@ function Catalog() {
                       title: selectedProduct.name,
                       price: selectedProduct.price,
                       image: selectedProduct.image,
-                      subtitle: 'Холодное',
+                      subtitle: category,
                     });
                     setSelectedProduct(null);
                   }}

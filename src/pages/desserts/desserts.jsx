@@ -57,7 +57,7 @@ const products = [
 
 const categories = ["Все", "Торты", "Пирожные", "В стакане", "Мороженое"];
 
-export default function Deserts() {
+export default function Desserts() {
   const [category, setCategory] = useState("Все");
   const [sort, setSort] = useState("asc");
   const [search, setSearch] = useState("");
