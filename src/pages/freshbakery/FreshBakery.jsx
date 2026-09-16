@@ -1,4 +1,6 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { useCart } from "../../context";
 
 const products = [
   {
@@ -87,7 +89,7 @@ export default function FreshBakery() {
   const [category, setCategory] = useState("Все");
   const [sort, setSort] = useState("asc");
   const [search, setSearch] = useState("");
-  const [cart, setCart] = useState({});
+  const { cartItems, addToCart, removeFromCart, cartCount, cartTotal } = useCart();
 
   const filteredProducts = useMemo(() => {
     let result = products.filter((product) => {
@@ -104,31 +106,24 @@ export default function FreshBakery() {
     return result;
   }, [category, sort, search]);
 
-  const addToCart = (id) => {
-    setCart((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
-  };
-
-  const removeFromCart = (id) => {
-    setCart((prev) => {
-      const next = { ...prev };
-      if (!next[id]) return prev;
-
-      next[id]--;
-
-      if (next[id] <= 0) {
-        delete next[id];
-      }
-
-      return next;
+  const handleAddToCart = (product) => {
+    addToCart({
+      id: `bakery-${product.id}`,
+      title: product.title,
+      price: product.price,
+      image: product.image,
+      subtitle: product.weight,
     });
   };
 
-  const cartCount = Object.values(cart).reduce((total, count) => total + count, 0);
+  const handleRemoveFromCart = (productId) => {
+    removeFromCart(`bakery-${productId}`);
+  };
 
-  const cartTotal = Object.entries(cart).reduce((total, [id, count]) => {
-    const product = products.find((product) => product.id === Number(id));
-    return total + (product?.price || 0) * count;
-  }, 0);
+  const getProductQuantity = (productId) => {
+    const found = cartItems.find((item) => String(item.id) === `bakery-${productId}`);
+    return found ? found.count : 0;
+  };
 
   return (
     <div className="min-h-screen bg-[#08090d] text-white">
@@ -219,7 +214,7 @@ export default function FreshBakery() {
 
         <section className="grid grid-cols-2 gap-x-3 gap-y-10 pb-28 pt-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {filteredProducts.map((product) => {
-            const quantity = cart[product.id] || 0;
+            const quantity = getProductQuantity(product.id);
 
             return (
               <article key={product.id} className="group min-w-0">
@@ -235,8 +230,8 @@ export default function FreshBakery() {
                     </span>
                   )}
                   <button
-                    onClick={() => addToCart(product.id)}
-                    className="absolute bottom-2.5 right-2.5 grid h-9 w-9 place-items-center bg-[#f5cf42] text-black opacity-0 transition group-hover:opacity-100"
+                    onClick={() => handleAddToCart(product)}
+                    className="absolute bottom-2.5 right-2.5 grid h-9 w-9 place-items-center bg-[#f5cf42] text-black opacity-0 transition group-hover:opacity-100 cursor-pointer"
                   >
                     +
                   </button>
@@ -265,8 +260,8 @@ export default function FreshBakery() {
 
                     {quantity === 0 ? (
                       <button
-                        onClick={() => addToCart(product.id)}
-                        className="grid h-9 w-10 place-items-center bg-[#f5cf42] text-black transition hover:bg-[#ffe477]"
+                        onClick={() => handleAddToCart(product)}
+                        className="grid h-9 w-10 place-items-center bg-[#f5cf42] text-black transition hover:bg-[#ffe477] cursor-pointer"
                       >
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
                           <path d="M4 5h2l2 11h10l2-8H7" />
@@ -277,15 +272,15 @@ export default function FreshBakery() {
                     ) : (
                       <div className="flex h-9 items-center border border-white/20">
                         <button
-                          onClick={() => removeFromCart(product.id)}
-                          className="grid h-full w-8 place-items-center text-white/70 hover:text-[#f5cf42]"
+                          onClick={() => handleRemoveFromCart(product.id)}
+                          className="grid h-full w-8 place-items-center text-white/70 hover:text-[#f5cf42] cursor-pointer"
                         >
                           −
                         </button>
                         <span className="w-6 text-center text-xs">{quantity}</span>
                         <button
-                          onClick={() => addToCart(product.id)}
-                          className="grid h-full w-8 place-items-center text-white/70 hover:text-[#f5cf42]"
+                          onClick={() => handleAddToCart(product)}
+                          className="grid h-full w-8 place-items-center text-white/70 hover:text-[#f5cf42] cursor-pointer"
                         >
                           +
                         </button>
@@ -306,7 +301,7 @@ export default function FreshBakery() {
                 setSearch("");
                 setCategory("Все");
               }}
-              className="mt-5 bg-[#f5cf42] px-5 py-3 text-xs font-bold text-black"
+              className="mt-5 bg-[#f5cf42] px-5 py-3 text-xs font-bold text-black cursor-pointer"
             >
               Сбросить фильтры
             </button>
@@ -318,12 +313,15 @@ export default function FreshBakery() {
       {cartCount > 0 && (
         <div className="fixed bottom-4 left-3 right-3 z-40 mx-auto flex max-w-[500px] items-center justify-between gap-3 bg-[#f5cf42] p-2.5 pl-4 text-black shadow-2xl md:left-auto md:right-6">
           <div className="flex flex-col">
-            <span className="text-[8px] uppercase opacity-60">В корзине</span>
+            <span className="text-[8px] uppercase opacity-60">В корзине ({cartCount} шт)</span>
             <strong className="text-[16px]">{cartTotal.toLocaleString("ru-RU")} ₽</strong>
           </div>
-          <button className="bg-black px-4 py-3 text-[10px] font-bold uppercase text-white">
+          <Link
+            to="/cart"
+            className="bg-black px-4 py-3 text-[10px] font-bold uppercase text-white hover:bg-neutral-900 transition-colors flex items-center gap-1.5"
+          >
             Перейти в корзину →
-          </button>
+          </Link>
         </div>
       )}
     </div>

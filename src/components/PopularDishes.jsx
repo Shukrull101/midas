@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { ShoppingBag } from 'lucide-react';
+import { ShoppingBag, Check } from 'lucide-react';
+import { useCart } from '../context';
 
 const popularDishes = [
   {
@@ -98,8 +99,24 @@ const popularDishes = [
 
 const DishCard = ({ dish }) => {
   const [selectedVariant, setSelectedVariant] = useState(0);
+  const [isAdded, setIsAdded] = useState(false);
+  const { addToCart } = useCart();
   const hasVariants = Array.isArray(dish.variants);
   const activeData = hasVariants ? dish.variants[selectedVariant] : dish;
+
+  const handleAdd = (e) => {
+    e.stopPropagation();
+    const variantSuffix = hasVariants ? ` (${activeData.name})` : '';
+    addToCart({
+      id: `popular-${dish.id}${hasVariants ? `-${selectedVariant}` : ''}`,
+      title: `${dish.name}${variantSuffix}`,
+      price: activeData.price,
+      image: dish.image,
+      subtitle: activeData.weight,
+    });
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 1000);
+  };
 
   return (
     <div className="flex flex-col group cursor-pointer transition-all duration-300 hover:-translate-y-2 h-full bg-white/[0.03] p-4 rounded-3xl border border-white/5 hover:border-white/10 hover:shadow-[0_8px_30px_rgb(0,0,0,0.4)]">
@@ -142,7 +159,7 @@ const DishCard = ({ dish }) => {
                   e.stopPropagation();
                   setSelectedVariant(idx);
                 }}
-                className={`flex-1 text-[11px] font-bold py-2 rounded-lg transition-colors duration-300 relative z-20 ${
+                className={`flex-1 text-[11px] font-bold py-2 rounded-lg transition-colors duration-300 relative z-20 cursor-pointer ${
                   selectedVariant === idx
                     ? 'text-black'
                     : 'text-gray-400 hover:text-white'
@@ -168,8 +185,16 @@ const DishCard = ({ dish }) => {
             </div>
           </div>
 
-          <button className="bg-yellow-400 text-black p-3 rounded-2xl hover:bg-yellow-300 active:scale-95 transition-all duration-200 shadow-[0_0_15px_rgba(251,203,43,0.15)] hover:shadow-[0_0_20px_rgba(251,203,43,0.4)] group-hover:-translate-y-1">
-            <ShoppingBag size={18} />
+          <button
+            onClick={handleAdd}
+            aria-label="Добавить в корзину"
+            className={`p-3 rounded-2xl active:scale-95 transition-all duration-200 cursor-pointer ${
+              isAdded
+                ? 'bg-emerald-500 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)]'
+                : 'bg-yellow-400 text-black hover:bg-yellow-300 shadow-[0_0_15px_rgba(251,203,43,0.15)] hover:shadow-[0_0_20px_rgba(251,203,43,0.4)] group-hover:-translate-y-1'
+            }`}
+          >
+            {isAdded ? <Check size={18} /> : <ShoppingBag size={18} />}
           </button>
         </div>
       </div>
