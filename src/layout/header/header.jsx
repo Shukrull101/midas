@@ -4,6 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 
 import styles from "./header.module.css";
 import { useCart } from "../../context";
+import logoSvg from "../../assets/Logo.svg";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -42,7 +43,7 @@ const Header = () => {
           </NavLink>
 
           <NavLink
-            to="/fresh-bakery"
+            to="/catalog?category=coldmeals"
             className={({ isActive }) =>
               `${styles.navLink} ${isActive ? styles.active : ""}`
             }

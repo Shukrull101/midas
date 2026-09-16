@@ -149,6 +149,11 @@
   .nav.open {
     left: 0;
   }
+  .logoIcon {
+  height: 32px; /* Укажи нужную высоту, например, 32px */
+  width: auto;  /* Ширина подстроится автоматически под пропорции */
+  display: block;
+}
 
   .burger {
     display: flex;
