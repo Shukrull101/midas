@@ -62,19 +62,21 @@ html {
   }
 }
 
-body { 
+body {
   margin: 0;
   min-width: 320px;
-  font-family: Inter, Arial, sans-serif; 
-  background: #08090d; /* Поменяли на темный фон под твой компонент выпечки */
+  font-family: Inter, Arial, sans-serif;
+  background: #08090d;
+  /* Поменяли на темный фон под твой компонент выпечки */
   color: #ffffff;
 }
 
 #root {
-  width: 1126px;
+  /* не надо делать width на root */
+  /* width: 1126px; */
   max-width: 100%;
   margin: 0 auto;
-  text-align: center;
+  /* text-align: center; */
   border-inline: 1px solid var(--border);
   min-height: 100svh;
   display: flex;
