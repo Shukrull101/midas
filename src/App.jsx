@@ -2,14 +2,13 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './layout/header/header';
 import Catalog from './pages/Catalog';
+import FreshBakery from './pages/freshbakery/FreshBakery';
 
 function App() {
   return (
     <div style={{ backgroundColor: '#050b1f', minHeight: '100vh', color: '#fff' }}>
-      {/* Шапка сайта всегда на экране */}
       <Header />
       
-      {/* Динамическая смена страниц в зависимости от ссылки */}
       <main>
         <Routes>
           <Route path="/" element={
@@ -22,6 +21,9 @@ function App() {
           } />
           
           <Route path="/catalog" element={<Catalog />} />
+          
+          {/* Вот сюда будет приводить клик из хедера */}
+          <Route path="/fresh-bakery" element={<FreshBakery />} />
           
           <Route path="/cart" element={
             <div style={{ padding: '40px 20px', maxWidth: '1200px', margin: '0 auto' }}>

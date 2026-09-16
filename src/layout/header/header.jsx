@@ -43,14 +43,13 @@ const Header = () => {
             ХОЛОДНОЕ ▾
           </NavLink>
 
-          <NavLink 
-            to="/catalog?category=freshbakery" 
-            className={({isActive}) => `${styles.navLink} ${isActive ? styles.active : ''}`}
-            onClick={closeMenu}
-          >
-            СВЕЖАЯ ВЫПЕЧКА
-          </NavLink>
-
+         <NavLink 
+  to="/fresh-bakery" 
+  className={({isActive}) => `${styles.navLink} ${isActive ? styles.active : ''}`}
+  onClick={closeMenu}
+>
+  СВЕЖАЯ ВЫПЕЧКА
+</NavLink>
           <NavLink 
             to="/catalog?category=deserts" 
             className={({isActive}) => `${styles.navLink} ${isActive ? styles.active : ''}`}
