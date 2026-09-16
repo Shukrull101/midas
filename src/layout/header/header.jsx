@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import styles from "./header.module.css";
+import { useCart } from '../../context';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const cartItemCount = 2; // Пример количества товаров в корзине
+  const { cartCount } = useCart();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
@@ -89,7 +90,7 @@ const Header = () => {
               <line x1="3" y1="6" x2="21" y2="6"></line>
               <path d="M16 10a4 4 0 0 1-8 0"></path>
             </svg>
-            {cartItemCount > 0 && <span className={styles.cartBadge}>{cartItemCount}</span>}
+            {cartCount > 0 && <span className={styles.cartBadge}>{cartCount}</span>}
           </Link>
 
           {/* Гамбургер для мобильных */}

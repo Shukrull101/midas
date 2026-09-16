@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useCart } from "../context";
 
 const products = [
   {
@@ -52,6 +53,7 @@ const products = [
 function Catalog() {
   const [searchParams] = useSearchParams();
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const { addToCart } = useCart();
 
   const category = searchParams.get("category");
 
@@ -192,14 +194,24 @@ function Catalog() {
 
               <div className="mt-6 flex items-center justify-between">
                 <span className="text-2xl font-bold text-orange-500">
-                  {selectedProduct.price} сом
+                  {selectedProduct.price} ₽
                 </span>
 
                 <button
                   type="button"
-                  className="rounded-xl bg-orange-500 px-6 py-3 font-semibold text-white transition hover:bg-orange-600"
+                  onClick={() => {
+                    addToCart({
+                      id: `catalog-${selectedProduct.id}`,
+                      title: selectedProduct.name,
+                      price: selectedProduct.price,
+                      image: selectedProduct.image,
+                      subtitle: 'Холодное',
+                    });
+                    setSelectedProduct(null);
+                  }}
+                  className="rounded-xl bg-orange-500 px-6 py-3 font-semibold text-white transition hover:bg-orange-600 cursor-pointer active:scale-95"
                 >
-                  Добавить
+                  Добавить в корзину
                 </button>
               </div>
             </div>

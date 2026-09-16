@@ -1,8 +1,39 @@
-import React from 'react';
-import { ShoppingBag } from 'lucide-react';
+import React, { useState } from 'react';
+import { ShoppingBag, Check } from 'lucide-react';
 import InteractiveDots from './InteractiveDots';
+import { useCart } from '../context';
 
 const Hero = () => {
+  const { addToCart } = useCart();
+  const [tiramisuAdded, setTiramisuAdded] = useState(false);
+  const [salmonAdded, setSalmonAdded] = useState(false);
+
+  const handleAddTiramisu = (e) => {
+    e.stopPropagation();
+    addToCart({
+      id: 'hero-tiramisu',
+      title: 'Тирамису',
+      price: 370,
+      image: '/tiramisu_dessert.jpg',
+      subtitle: '150 г',
+    });
+    setTiramisuAdded(true);
+    setTimeout(() => setTiramisuAdded(false), 1000);
+  };
+
+  const handleAddSalmon = (e) => {
+    e.stopPropagation();
+    addToCart({
+      id: 'hero-salmon',
+      title: 'Стейк из лосося с овощами',
+      price: 1200,
+      image: '/hero_salmon.jpg',
+      subtitle: '240 г',
+    });
+    setSalmonAdded(true);
+    setTimeout(() => setSalmonAdded(false), 1000);
+  };
+
   return (
     <section className="relative w-full max-w-[1400px] mx-auto px-8 pt-10 pb-10">
       <div className="flex flex-col lg:flex-row justify-between items-start">
@@ -35,8 +66,16 @@ const Hero = () => {
             <div className="text-gray-400 text-xs mb-3 bg-white/10 w-fit px-2 py-0.5 rounded-md">150 г</div>
             <div className="flex items-center justify-between">
               <span className="text-white font-bold text-lg">370 ₽</span>
-              <button className="bg-yellow-400 text-black p-2 rounded-xl hover:bg-yellow-300 active:scale-95 transition-all duration-200 shadow-[0_0_15px_rgba(251,203,43,0.3)] hover:shadow-[0_0_20px_rgba(251,203,43,0.5)]">
-                <ShoppingBag size={16} />
+              <button
+                onClick={handleAddTiramisu}
+                aria-label="Добавить Тирамису в корзину"
+                className={`p-2 rounded-xl active:scale-95 transition-all duration-200 cursor-pointer ${
+                  tiramisuAdded
+                    ? 'bg-emerald-500 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)]'
+                    : 'bg-yellow-400 text-black hover:bg-yellow-300 shadow-[0_0_15px_rgba(251,203,43,0.3)] hover:shadow-[0_0_20px_rgba(251,203,43,0.5)]'
+                }`}
+              >
+                {tiramisuAdded ? <Check size={16} /> : <ShoppingBag size={16} />}
               </button>
             </div>
           </div>
@@ -67,8 +106,16 @@ const Hero = () => {
               </p>
               <div className="flex items-center gap-4">
                 <span className="text-2xl font-bold">1 200 ₽</span>
-                <button className="bg-yellow-400 text-black p-2.5 rounded-xl hover:bg-yellow-300 active:scale-95 transition-all duration-200 shadow-[0_0_15px_rgba(251,203,43,0.3)] hover:shadow-[0_0_20px_rgba(251,203,43,0.6)]">
-                  <ShoppingBag size={20} />
+                <button
+                  onClick={handleAddSalmon}
+                  aria-label="Добавить Стейк из лосося в корзину"
+                  className={`p-2.5 rounded-xl active:scale-95 transition-all duration-200 cursor-pointer ${
+                    salmonAdded
+                      ? 'bg-emerald-500 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)]'
+                      : 'bg-yellow-400 text-black hover:bg-yellow-300 shadow-[0_0_15px_rgba(251,203,43,0.3)] hover:shadow-[0_0_20px_rgba(251,203,43,0.6)]'
+                  }`}
+                >
+                  {salmonAdded ? <Check size={20} /> : <ShoppingBag size={20} />}
                 </button>
               </div>
             </div>
