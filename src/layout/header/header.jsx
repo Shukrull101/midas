@@ -5,7 +5,7 @@ import { useCart } from '../../context';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { cartCount } = useCart();
+  const cartItemCount = 2; // Пример количества товаров в корзине
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
